@@ -1,0 +1,3 @@
+MEMCACHE:
+    HOST: memcached
+
