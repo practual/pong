@@ -11,10 +11,16 @@ def get_cache():
     return g.cache
 
 
-def set_in_cache(key, value):
-    get_cache().set(key, value)
+def set_in_cache(key, value, lock=None):
+    if lock:
+        get_cache().cas(key, value, lock)
+    else:
+        get_cache().set(key, value)
 
 
-def get_from_cache(key):
+def get_from_cache(key, with_lock=False):
+    if with_lock:
+        val, lock = get_cache().gets(key)
+        return val.decode('utf-8') if val else None, lock
     return get_cache().get(key).decode('utf-8')
 
