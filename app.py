@@ -21,9 +21,9 @@ def index(**kwargs):
         return {}
     if 'type' not in body:
         return {}
+    app.logger.info(body['type'])
     if body['type'] == 'url_verification':
         return {'challenge': body['challenge']}
-    app.logger.info(body)
     return {}
 
 

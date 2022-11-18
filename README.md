@@ -7,7 +7,7 @@
 - Check for any currently running containers: `docker ps`, `docker stop <CONTAINER>`
 - Run the webapp container in the background: `docker run -d --rm --net pong -p 5001:5001 <IMAGE>`
 - Pull the memcached Docker image: `docker pull memcached`
-- Run a container for the memcached image: `docker run -d --rm --net pong --name memcached memcached`
+- Run a container for the memcached image: `docker run -d --rm --net pong --name memcached_pong memcached`
 
 ## Deploying locally without Docker
 
