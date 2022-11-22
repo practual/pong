@@ -26,7 +26,7 @@ def send_to_slack(text):
 
 def get_name_from_user_id(user_id):
     client = WebClient(token=app.config['SLACK']['BOT_TOKEN'])
-    return client.users_info(user=user_id)['user']['profile']['display_name']
+    return client.users_info(user=user_id)['user']['profile']['real_name']
 
 
 def handle_result(body, regex_match):
