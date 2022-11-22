@@ -6,6 +6,24 @@ from cache import get_from_cache, set_in_cache
 Q = 0.00575646273
 
 
+def get_rating(player_id):
+    return get_from_cache('rating:{}'.format(player_id))
+
+
+def get_deviation(player_id):
+    return get_from_cache('deviation:{}'.format(player_id))
+
+
+def get_rank():
+    all_player_id_str = get_from_cache('players')
+    unranked = []
+    for player_id in all_player_id_str.split(','):
+        rating = get_rating(player_id)
+        if rating:
+            unranked.append((player_id, int(rating)))
+    return sorted(unranked, key=lambda x: x[1], reverse=True)
+
+
 def get_stats(player_id):
     rating, rating_lock = get_from_cache('rating:{}'.format(player_id), True)
     deviation, deviation_lock = get_from_cache('deviation:{}'.format(player_id), True)

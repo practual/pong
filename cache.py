@@ -22,5 +22,6 @@ def get_from_cache(key, with_lock=False):
     if with_lock:
         val, lock = get_cache().gets(key)
         return val.decode('utf-8') if val else None, lock
-    return get_cache().get(key).decode('utf-8')
+    val = get_cache().get(key)
+    return val.decode('utf-8') if val else None
 
