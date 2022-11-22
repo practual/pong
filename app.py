@@ -24,6 +24,11 @@ def send_to_slack(text):
     client.chat_postMessage(channel='#fun-dublin-pingpong', text=text)
 
 
+def get_name_from_user_id(user_id):
+    client = WebClient(token=app.config['SLACK']['BOT_TOKEN'])
+    return client.users_info(user=user_id)['user']['profile']['display_name']
+
+
 def handle_result(body, regex_match):
     p1, _, p2 = regex_match[0].split()
     player_pattern = re.compile('<@([A-Z0-9]+)>')
@@ -38,14 +43,14 @@ def handle_result(body, regex_match):
     process_result(p1_id, p2_id, body['event_time'])
     p1_rating = get_rating(p1_id)
     p2_rating = get_rating(p2_id)
-    send_to_slack('<@{}>: {}'.format(p1_id, p1_rating))
-    send_to_slack('<@{}>: {}'.format(p2_id, p2_rating))
+    send_to_slack('{}: {}'.format(get_name_from_user_id(p1_id), p1_rating))
+    send_to_slack('{}: {}'.format(get_name_from_user_id(p2_id), p2_rating))
 
 
 def handle_rank():
     text = "\n"
     for player_id, rank in get_rank():
-        text += "<@{}>: {}\n".format(player_id, rank)
+        text += "{}: {}\n".format(get_name_from_user_id(player_id), rank)
     send_to_slack(text)
 
 
